@@ -86,11 +86,6 @@ namespace _3DSceneEditorCS.Classes
             vertex1.applyMatrix(matrix);
             vertex2.applyMatrix(matrix); 
         }
-
-        public override bool haveVertexes()
-        {
-            return true; 
-        }
     }
 
     public class Polygon : Figure
@@ -205,16 +200,6 @@ namespace _3DSceneEditorCS.Classes
         {
             foreach (var vert in vertexes)
                 vert.applyMatrix(matrix); 
-        }
-
-        public override bool haveVertexes()
-        {
-            return true;
-        }
-
-        public override Vector[] getVertexes()
-        {
-            return vertexes;
         }
     }
 

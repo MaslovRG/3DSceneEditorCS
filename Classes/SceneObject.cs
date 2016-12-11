@@ -18,15 +18,5 @@ namespace _3DSceneEditorCS.Classes
         {
 
         }
-
-        public virtual bool haveVertexes()
-        {
-            return false; 
-        }
-
-        public virtual Vector[] getVertexes()
-        {
-            return null; 
-        }
     }
 }
