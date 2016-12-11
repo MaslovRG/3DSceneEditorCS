@@ -100,8 +100,8 @@ namespace _3DSceneEditorCS.Classes
                 return null;
             }
             obj = hit.figure;
-            if (isEdit || obj.Equals(typeof(Vector)) || obj.Equals(typeof(Edge)))
-                return hit.figure.color;
+            if (isEdit || obj is Vector || obj is Edge)
+                return hit.color;
 
             Vector p = hit.point;
             Vector norm = hit.normal;
@@ -119,7 +119,7 @@ namespace _3DSceneEditorCS.Classes
                 depth = 1.0;
             if (depth < 0.01)
                 depth = 0.0;
-            MyColor clr = (MyColor)hit.figure.color.Clone();
+            MyColor clr = (MyColor)hit.color.Clone();
             clr.SetSaturation(depth);
 
             return clr;

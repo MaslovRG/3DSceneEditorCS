@@ -59,7 +59,7 @@ namespace _3DSceneEditorCS.Classes
                 Vector point2 = r.from + r.direction * tt;
                 double dist = (point2 - r.from).getLength2();
                 Vector norm = (point2 - center).normalize(); 
-                return new Intersection(point2, norm, this, dist);
+                return new Intersection(point2, norm, this, dist, this.color);
             }
             return null;
         }
@@ -105,6 +105,7 @@ namespace _3DSceneEditorCS.Classes
             edges = nEdges;
             color = nColor; 
             triangles = triangulate(edges, color);
+            vertexes = new List<Vector>(); 
             foreach (var edge in edges)
                 vertexes.Add(edge.vertex1); 
         }
@@ -194,7 +195,7 @@ namespace _3DSceneEditorCS.Classes
                     return null; 
 
                 double dist = (point - r.from).getLength2();
-                return new Intersection(point, normal, this, dist);
+                return new Intersection(point, normal, this, dist, this.color);
             }
 
             return null;

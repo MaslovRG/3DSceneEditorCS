@@ -12,20 +12,31 @@ namespace _3DSceneEditorCS.Classes
         public double y { get; set; }
         public double z { get; set; }
         public static double radius { get; set; }
+        public static MyColor vcolor { get; set; }
+        public MyColor color 
+        { 
+            get
+            {
+               return vcolor; 
+            }
+            set
+            {
+                ; 
+            }
+        }
+
         public Vector()
         {
             x = 0.0;
             y = 0.0;
             z = 0.0;
-            color = null; 
         }
         
         public Vector(Vector v)
         {
             x = v.x;
 			y = v.y;
-			z = v.z;
-            color = v.color; 
+			z = v.z; 
         }
         
         public Vector(double x1, double y1, double z1)
@@ -33,15 +44,6 @@ namespace _3DSceneEditorCS.Classes
             x = x1;
             y = y1;
             z = z1;
-            color = null; 
-        }
-
-        public Vector(double x1, double y1, double z1, MyColor clr)
-        {
-            x = x1;
-            y = y1;
-            z = z1;
-            color = clr; 
         }
         
         public Vector normalize()
@@ -134,7 +136,7 @@ namespace _3DSceneEditorCS.Classes
 
         public override Intersection isIntersect(Ray r)
         {
-            if (color == null)
+            if (vcolor == null)
                 return null; 
 
             double a = r.direction.getLength2();
@@ -163,7 +165,7 @@ namespace _3DSceneEditorCS.Classes
                 Vector point2 = r.from + r.direction * tt;
                 double dist = (point2 - r.from).getLength2();
                 Vector norm = (point2 - this).normalize();
-                return new Intersection(point2, norm, this, dist);
+                return new Intersection(point2, norm, this, dist, vcolor);
             }
             return null;
         }

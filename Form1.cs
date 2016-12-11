@@ -29,6 +29,7 @@ namespace _3DSceneEditorCS
             workScene = new Scene();
             workRT = new RayTracer(workScene, workCanvas);
             Vector.radius = 5;
+            Vector.vcolor = new MyColorVS(Color.AntiqueWhite); 
             //Vector.color = new MyColorVS(Color.AntiqueWhite); 
         }
 
@@ -36,14 +37,14 @@ namespace _3DSceneEditorCS
         {
             //MessageBox.Show("Курсовая работа. Редактор трёхмерной сцены v0.01a");
             MyColorVS clrp = new MyColorVS(Color.AntiqueWhite); 
-            Vector p1 = new Vector(-180, -90, -70, clrp);
-            Vector p2 = new Vector(0, 180, -70, clrp);
-            Vector p3 = new Vector(180, -90, -70, clrp); 
+            Vector p1 = new Vector(-180, -90, -70);
+            Vector p2 = new Vector(0, 180, -70);
+            Vector p3 = new Vector(180, -90, -70); 
             Edge[] em = new Edge[] { new Edge(p1, p2), new Edge(p2, p3), new Edge(p3, p1) };
             Vector[] vm = new Vector[] { p1, p2, p3 }; 
             MyColorVS clr = new MyColorVS(Color.Violet); 
-            //Polygon pp = new Polygon(em, vm, clr);
-            Triangle pp = new Triangle(vm, clr); 
+            Polygon pp = new Polygon(em, clr);
+            //Triangle pp = new Triangle(vm, clr); 
             workScene.addFigure(pp);
             workRT.drawScene(checkBox1.Checked);
             pictureBox1.Image = workCanvas.canv;
