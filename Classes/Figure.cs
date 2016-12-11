@@ -104,7 +104,7 @@ namespace _3DSceneEditorCS.Classes
         {
             edges = nEdges;
             color = nColor; 
-            triangles = triangulate(edges);
+            triangles = triangulate(edges, color);
             foreach (var edge in edges)
                 vertexes.Add(edge.vertex1); 
         }
@@ -131,10 +131,20 @@ namespace _3DSceneEditorCS.Classes
         }
 
         // выпуклых и в  одной плоскости
-        private static List<Triangle> triangulate(Edge[] edges)
+        private static List<Triangle> triangulate(Edge[] edges, MyColor color)
         {           
             List<Triangle> triangles = new List<Triangle>();
-            
+            int cnt = edges.Count();
+            if (cnt > 2)
+            {
+                Vector v1 = edges[0].vertex1;
+                for (int i = 1; i < cnt-1; i++)
+                {
+                    Vector v2 = edges[i].vertex1;
+                    Vector v3 = edges[i].vertex2;
+                    triangles.Add(new Triangle(new Vector[] { v1, v2, v3 }, color)); 
+                }
+            }
             return triangles; 
         }
 
