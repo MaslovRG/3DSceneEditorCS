@@ -7,7 +7,7 @@ namespace _3DSceneEditorCS.Classes
 {
     public class SceneObject
     {
-        public MyColor color { get; set; }
+        public virtual MyColor color { get; set; }
 
         public virtual Intersection isIntersect(Ray r)
         {

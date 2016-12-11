@@ -30,7 +30,15 @@ namespace _3DSceneEditorCS
             workRT = new RayTracer(workScene, workCanvas);
             Vector.radius = 5;
             Vector.vcolor = new MyColorVS(Color.AntiqueWhite); 
-            //Vector.color = new MyColorVS(Color.AntiqueWhite); 
+            //Vector.color = new MyColorVS(Color.AntiqueWhite);
+            dataGridView1.RowCount = 5;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToOrderColumns = false;
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.Rows[3].Cells[3].Value = "1";
+            dataGridView1.Rows[3].Cells[3].ReadOnly = true; 
         }
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -145,6 +153,16 @@ namespace _3DSceneEditorCS
         {
             workRT.drawScene(checkBox1.Checked);
             pictureBox1.Image = workCanvas.canv; 
+        }
+
+        private void настройкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TransferSettings.radius = Vector.radius;
+            TransferSettings.color = Vector.vcolor; 
+            Settings setForm = new Settings();
+            setForm.ShowDialog();
+            Vector.radius = TransferSettings.radius;
+            Vector.vcolor = TransferSettings.color; 
         }
     }
 }

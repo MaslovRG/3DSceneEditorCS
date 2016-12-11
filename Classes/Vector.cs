@@ -13,30 +13,21 @@ namespace _3DSceneEditorCS.Classes
         public double z { get; set; }
         public static double radius { get; set; }
         public static MyColor vcolor { get; set; }
-        public MyColor color 
-        { 
-            get
-            {
-               return vcolor; 
-            }
-            set
-            {
-                ; 
-            }
-        }
 
         public Vector()
         {
             x = 0.0;
             y = 0.0;
             z = 0.0;
+            color = null; 
         }
         
         public Vector(Vector v)
         {
             x = v.x;
 			y = v.y;
-			z = v.z; 
+			z = v.z;
+            color = v.color; 
         }
         
         public Vector(double x1, double y1, double z1)
@@ -44,6 +35,7 @@ namespace _3DSceneEditorCS.Classes
             x = x1;
             y = y1;
             z = z1;
+            color = null; 
         }
         
         public Vector normalize()
