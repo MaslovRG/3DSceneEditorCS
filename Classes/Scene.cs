@@ -120,12 +120,30 @@ namespace _3DSceneEditorCS.Classes
             activeCamera = cameras.GetEnumerator(); 
         }
 
-        public override void applyMatrix(Matrix matrix)
+        public override void applyMatrix(Matrix matrixP, Matrix matrixV)
         {
             foreach (var obj in allObjs)
             {
                 foreach (var sceneObj in obj)
-                    sceneObj.applyMatrix(matrix);
+                    sceneObj.applyMatrix(matrixP, matrixV);
+            }
+        }
+
+        public override void makePrepares()
+        {
+            foreach (var obj in allObjs)
+            {
+                foreach (var sceneObj in obj)
+                    sceneObj.makePrepares();
+            }
+        }
+
+        public override void undoPrepares()
+        {
+            foreach (var obj in allObjs)
+            {
+                foreach (var sceneObj in obj)
+                    sceneObj.undoPrepares();
             }
         }
     }

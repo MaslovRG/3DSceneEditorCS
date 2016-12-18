@@ -28,22 +28,24 @@ namespace _3DSceneEditorCS.Classes
             Camera camera = null;
             canv.allEmpty(); 
             if (scene == null || (camera  = scene.getActiveCamera()) == null || scene.getFigures().Count == 0)
-                return; 
-            scene.applyMatrix(camera.matrixToZ); 
+                return;
+            camera.setMatrixes(); 
+            scene.applyMatrix(camera.matrixToZ, camera.mToZfD);
+            scene.makePrepares(); 
             double aX = (camera.angleX / 2) * Math.PI / 180;
             double aY = (camera.angleY / 2) * Math.PI / 180; 
 
             double dopX = aX / (double)width * 2;
             double dopY = aY / (double)height * 2;
 
-            double nnz = 1; 
-            Vector vray = new Vector(0, 0, nnz); 
-            Ray ray = new Ray(camera.position, vray);
+            double nnz = 100; 
+            /*Vector vray = new Vector(0, 0, nnz); 
+            Ray ray = new Ray(camera.position, vray);*/
 
             Stopwatch stp = new Stopwatch();
 
             stp.Start(); 
-            /*ParallelLoopResult result = Parallel.For(0, height, y =>
+            ParallelLoopResult result = Parallel.For(0, height, y =>
                 {
                     double nY = y * dopY - aY;
                     Vector vray = new Vector(0, nnz * Math.Tan(nY), nnz); 
@@ -54,20 +56,20 @@ namespace _3DSceneEditorCS.Classes
 
                         SceneObject pixelObject;
                         Ray ray = new Ray(camera.position, vray);
-                        MyColor clr = Sampler(ray, out pixelObject, isEdit);
+                        MyColor clr = Sampler(ray, out pixelObject, camera);
 
                         canv.drawPixel(x, height - y, clr);
                         canv.setObject(x, height - y, pixelObject);
                     }
                 });
-            canv.endDraw();*/
-            for (int y = 0; y < height; y++)
+            canv.endDraw();
+            /*for (int y = 0; y < height; y++)
             {
                 double nY = y * dopY - aY;
                 vray.y = nnz * Math.Tan(nY);
                 for (int x = 0; x < width; x++)
                 {
-                    if (x == 55 && y == 250)
+                    if (x == 250 && y == 250)
                     {
                         nnz++;
                         nnz--; 
@@ -81,18 +83,19 @@ namespace _3DSceneEditorCS.Classes
                     canv.drawPixel(x, height - y, clr);
                     canv.setObject(x, height - y, pixelObject);
                 }
-            }
+            }*/
             stp.Stop();
-            long ololo = stp.ElapsedMilliseconds; 
-            scene.applyMatrix(camera.matrixFromZ);
+            long ololo = stp.ElapsedMilliseconds;
+            scene.undoPrepares(); 
+            scene.applyMatrix(camera.matrixFromZ, camera.mFromZfD);
             DateTime time2 = DateTime.Now;
             int one = (time2 - time1).Milliseconds;
             one++; 
         }
 
-        private MyColor Sampler(Ray r, out SceneObject obj, bool isEdit)
+        private MyColor Sampler(Ray r, out SceneObject obj, Camera camera)
         {
-            Intersection hit = Tracer(r);
+            Intersection hit = Tracer(r, camera);
 
             if (hit == null)
             {
@@ -100,8 +103,10 @@ namespace _3DSceneEditorCS.Classes
                 return null;
             }
             obj = hit.figure;
-            if (isEdit || obj is Vector || obj is Edge)
-                return hit.color;
+            if (obj is Source || !(ViewSettings.allLight) || (!(ViewSettings.subLight) && (obj is Vector || obj is Edge || obj is Camera)))
+            {
+                return hit.color; 
+            }
 
             Vector p = hit.point;
             Vector norm = hit.normal;
@@ -109,7 +114,7 @@ namespace _3DSceneEditorCS.Classes
 
             foreach (Source source in scene.getSources())
             {
-                if (inShadow(p, source.position))
+                if (inShadow(p, source))
                     continue;
                 Vector ddd = (source.position - p).normalize();
                 double cos = norm * ddd;
@@ -125,7 +130,7 @@ namespace _3DSceneEditorCS.Classes
             return clr;
         }
 
-        private Intersection Tracer(Ray r)
+        private Intersection Tracer(Ray r, SceneObject src)
         {
             Intersection nI = null;
 
@@ -133,23 +138,16 @@ namespace _3DSceneEditorCS.Classes
                 foreach (var sceneObj in objList)
                 {
                     Intersection nI1 = sceneObj.isIntersect(r);
-                    if (nI1 != null && (nI == null || nI1.distance < nI.distance))
+                    if (nI1 != null && (nI == null || nI1.distance < nI.distance) && nI1.figure != src)
                         nI = nI1;
                 }
-            /*foreach (var sceneObj in scene.getFigures())
-            {
-                Intersection nI1 = fig1.isIntersect(r);
-                if (nI1 != null && (nI == null || nI1.distance < nI.distance))
-                    nI = nI1;
-            }*/ 
-
             return nI; 
         }        
 
-        private bool inShadow(Vector p, Vector lightpos)
+        private bool inShadow(Vector p, Source light)
         {
-            Intersection q = Tracer(new Ray(lightpos, p - lightpos));
-            return (q == null) || ((lightpos - q.point).getLength2() + eps < (lightpos-p).getLength2()); 
+            Intersection q = Tracer(new Ray(light.position, p - light.position), light);
+            return (q == null) || ((light.position - q.point).getLength2() + eps < (light.position-p).getLength2()); 
         }
     }
 }

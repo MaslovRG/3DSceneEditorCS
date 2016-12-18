@@ -23,12 +23,12 @@ namespace _3DSceneEditorCS.Classes
 
         public override void drawPixel(int x, int y, MyColor clr)
         {
-            if (clr != null)
+            /*if (clr != null)
             {
                 MyColorVS clr1 = (MyColorVS)clr;
                 canv.SetPixel(x, y, clr1.color);
-            }
-            //ccanv[x, y] = clr; 
+            }*/
+            ccanv[x, y] = clr; 
         }
 
         public override void setObject(int x, int y, SceneObject obj)

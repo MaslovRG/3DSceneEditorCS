@@ -11,7 +11,7 @@ namespace _3DSceneEditorCS.Classes
         public double x { get; set; }
         public double y { get; set; }
         public double z { get; set; }
-        public static double radius { get; set; }
+        public static double vradius { get; set; }
         public static MyColor vcolor { get; set; }
 
         public Vector()
@@ -83,9 +83,11 @@ namespace _3DSceneEditorCS.Classes
             return nv; 
         }
 
-        public override void applyMatrix(Matrix matrix)
+        public override void applyMatrix(Matrix matrixP, Matrix matrixV)
         {
-            Matrix m = matrix; 
+            if (matrixP == null)
+                return; 
+            Matrix m = matrixP; 
             double vx = x;
             double vy = y;
             double vz = z;
@@ -128,13 +130,13 @@ namespace _3DSceneEditorCS.Classes
 
         public override Intersection isIntersect(Ray r)
         {
-            if (vcolor == null)
+            if ((vcolor == null && color == null) || vradius < 0)
                 return null; 
 
             double a = r.direction.getLength2();
             Vector fmc = r.from - this;
             double b = (fmc * r.direction);
-            double c = fmc.getLength2() - radius * radius;
+            double c = fmc.getLength2() - vradius * vradius;
 
             double dd = b * b - a * c;
             double tt;
@@ -153,13 +155,20 @@ namespace _3DSceneEditorCS.Classes
                 }
                 else
                     tt = Math.Min(t1, t2);
-                tt = Math.Min(t1, t2);
                 Vector point2 = r.from + r.direction * tt;
-                double dist = (point2 - r.from).getLength2();
                 Vector norm = (point2 - this).normalize();
-                return new Intersection(point2, norm, this, dist, vcolor);
+                double dist = (point2 - r.from).getLength2();
+                MyColor clr = vcolor;
+                if (color != null)
+                    clr = color;
+                return new Intersection(point2, norm, this, dist, clr);
             }
             return null;
+        }
+
+        public override string ToString()
+        {
+            return "(" + x.ToString() + ";" + y.ToString() + ";" + z.ToString() + ")";
         }
     }
 }

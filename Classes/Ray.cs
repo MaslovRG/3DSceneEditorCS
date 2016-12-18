@@ -15,10 +15,5 @@ namespace _3DSceneEditorCS.Classes
             this.from = fr;
             this.direction = dir; 
         }
-
-        public void setDirection(Vector nDirection)
-        {
-            direction = nDirection; 
-        }
     }
 }

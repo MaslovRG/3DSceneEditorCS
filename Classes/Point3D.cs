@@ -5,7 +5,7 @@ using System.Text;
 
 namespace _3DSceneEditorCS.Classes
 {
-    public class Point3D : SceneObject
+    /*public class Point3D : SceneObject
     {
         private double X;
         private double Y;
@@ -60,5 +60,5 @@ namespace _3DSceneEditorCS.Classes
         {
             return this.Z; 
         }
-    }
+    }*/
 }

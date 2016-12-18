@@ -14,9 +14,24 @@ namespace _3DSceneEditorCS.Classes
             return null;
         } 
 
-        public virtual void applyMatrix(Matrix matrix)
+        public virtual void applyMatrix(Matrix matrixP, Matrix matrixV)
         {
 
+        }
+
+        public virtual void makePrepares()
+        {
+
+        }
+
+        public virtual void undoPrepares()
+        {
+
+        }
+
+        public virtual SceneObject[] getSubs()
+        {
+            return null; 
         }
     }
 }

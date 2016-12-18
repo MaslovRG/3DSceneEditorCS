@@ -24,40 +24,16 @@ namespace _3DSceneEditorCS.Classes
                 this.data[i] = m.data[i]; 
         }
 
-        // создаёт матрицу поворота из v2 в v1
-        // создаёт матрицу поворота из 
-        /*public Matrix(Vector v1, Vector v2)
+        public Matrix(double a)
         {
-            Vector l = v1 % v2;
-            double cf = v1 * v2; // cos(fi)
-            double df = 1.0 / (1.0 + cf);
-
-            Vector m = l * df;
-            double a = l.x * m.y;
-            double b = l.y * m.z;
-            double c = l.z * m.x;
-            data = new double[16];
- 
-            data[0] = l.x * m.x + cf;
-            data[1] = a - l.z;
-            data[2] = c + l.y;
-            data[3] = 0;
-
-            data[4] = a + l.z;
-            data[5] = l.y * m.y + cf;
-            data[6] = c + l.y;
-            data[7] = 0;
-
-            data[8] = c - l.y;
-            data[9] = b + l.x;
-            data[10] = l.z * m.z + cf;
-            data[11] = 0;
-
-            data[12] = 0;
-            data[13] = 0;
-            data[14] = 0;
-            data[15] = 1; 
-        }*/
+            this.data = new double[16];
+            for (int i = 0; i < 16; i++)
+                data[i] = 0;
+            data[0] = a;
+            data[5] = a;
+            data[10] = a;
+            data[15] = 1;  
+        }
 
         // получает матрицу поворота вектора к оси Z
         public static Matrix getRotateToZ(Vector c)
@@ -124,20 +100,20 @@ namespace _3DSceneEditorCS.Classes
             return matrix; 
         }
 
-        public static Matrix getScale(double kx, double ky, double kz, double xc, double yc, double zc)
+        public static Matrix getScale(double kx, double ky, double kz/*, double xc, double yc, double zc*/)
         {
             Matrix matrix = new Matrix();
             matrix.data[0] = kx;
             matrix.data[5] = ky;
             matrix.data[10] = kz;
-            matrix.data[12] = (1 - kx) * xc;
+            /*matrix.data[12] = (1 - kx) * xc;
             matrix.data[13] = (1 - ky) * yc;
-            matrix.data[14] = (1 - kz) * zc;
+            matrix.data[14] = (1 - kz) * zc;*/
             matrix.data[15] = 1; 
             return matrix; 
         }
 
-        public static Matrix matrixRotateXGet(double angleX, double xc, double yc, double zc)
+        public static Matrix matrixRotateXGet(double angleX)
         {
             Matrix matrix = new Matrix();
             matrix.data[0] = 1;
@@ -145,13 +121,11 @@ namespace _3DSceneEditorCS.Classes
             matrix.data[6] = Math.Sin(angleX);
             matrix.data[9] = -Math.Sin(angleX);
             matrix.data[10] = Math.Cos(angleX);
-            matrix.data[13] = yc - yc * Math.Cos(angleX) + zc * Math.Sin(angleX);
-            matrix.data[14] = zc - yc * Math.Sin(angleX) - yc * Math.Cos(angleX);
             matrix.data[15] = 1; 
             return matrix; 
         }
 
-        public static Matrix matrixRotateYGet(double angleY, double xc, double yc, double zc)
+        public static Matrix matrixRotateYGet(double angleY)
         {
             Matrix matrix = new Matrix();            
             matrix.data[0] = Math.Cos(angleY);
@@ -159,13 +133,11 @@ namespace _3DSceneEditorCS.Classes
             matrix.data[5] = 1;
             matrix.data[8] = Math.Sin(angleY);
             matrix.data[10] = Math.Cos(angleY);
-            matrix.data[12] = xc - xc * Math.Cos(angleY) - zc * Math.Sin(angleY);
-            matrix.data[14] = zc + xc * Math.Sin(angleY) - zc * Math.Cos(angleY);
             matrix.data[15] = 1;
             return matrix; 
         }
 
-        public static Matrix matrixRotateZGet(double angleZ, double xc, double yc, double zc)
+        public static Matrix matrixRotateZGet(double angleZ)
         {
             Matrix matrix = new Matrix();
             matrix.data[0] = Math.Cos(angleZ);
@@ -173,8 +145,6 @@ namespace _3DSceneEditorCS.Classes
             matrix.data[4] = -Math.Sin(angleZ);
             matrix.data[5] = Math.Cos(angleZ);
             matrix.data[10] = 1;
-            matrix.data[12] = xc - xc * Math.Cos(angleZ) + yc * Math.Sin(angleZ);
-            matrix.data[13] = yc - xc * Math.Sin(angleZ) - yc * Math.Cos(angleZ);
             matrix.data[15] = 1;
             return matrix; 
         }
