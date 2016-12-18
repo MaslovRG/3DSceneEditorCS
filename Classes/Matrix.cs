@@ -162,5 +162,29 @@ namespace _3DSceneEditorCS.Classes
 
             return nm; 
         }
+
+        public static Matrix[] getToZMatrixes(Vector vertex1, Vector vertex2)
+        {
+            Vector direction = vertex2 - vertex1;
+            Vector position = vertex1;
+            Matrix moveTo = Matrix.getMove(-position.x, -position.y, -position.z);
+            Vector aaa = direction.normalize();
+            Matrix rotateTo = Matrix.getRotateToZ(aaa);
+            Vector check = aaa * rotateTo;
+            double divideZ = 1 / check.z;
+            Matrix scaleTo = Matrix.getScale(divideZ, divideZ, divideZ);
+
+            Matrix moveFrom = Matrix.getMove(position.x, position.y, position.z);
+            Matrix rotateFrom = Matrix.getRotateFromZ(aaa);
+            Matrix scaleFrom = Matrix.getScale(check.z, check.z, check.z);
+
+            Matrix[] ret = new Matrix[4];
+            ret[0] = moveTo * rotateTo * scaleTo;
+            ret[1] = rotateTo * scaleTo;
+            ret[2] = scaleFrom * rotateFrom * moveFrom;
+            ret[3] = scaleFrom * rotateFrom;
+
+            return ret; 
+        }
     }
 }
