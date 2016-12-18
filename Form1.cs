@@ -119,7 +119,9 @@ namespace _3DSceneEditorCS
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Редактор трёхмерной сцены v0.5 \n\nАвтор: Маслов А.Д., ИУ7-51\nРуководитель: Куров А.В.", "Курсовая работа");
-
+            Edge edg = new Edge(new Vector(), new Vector());
+            MyColor tc = edg.color;
+            MyColorVS clr = (MyColorVS)tc; 
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -487,7 +489,7 @@ namespace _3DSceneEditorCS
                             double cmz = double.Parse(textBox7.Text);
                             to0 = Matrix.getMove(-cmx, -cmy, -cmz);
                             from0 = Matrix.getMove(cmx, cmy, cmz); 
-                            operation = Matrix.getScale(kx, ky, kz); 
+                            operation = to0 * Matrix.getScale(kx, ky, kz) * from0; 
                             break; 
                         case 2:
                             double angleX = double.Parse(textBox2.Text) * Math.PI / 180;
@@ -518,6 +520,11 @@ namespace _3DSceneEditorCS
             {
                 MessageBox.Show("Выберите объект!"); 
             }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            
         }
 
         

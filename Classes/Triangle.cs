@@ -22,6 +22,7 @@ namespace _3DSceneEditorCS.Classes
             Vector v2 = vertexes[1];
             Vector v3 = vertexes[2];
             Vector normal = (v2 - v1) % (v3 - v1);
+            //if (normal * r.from + d == )
             if (normal * r.direction > 0)
                 normal *= (-1);
             double d = -(normal * v1);
@@ -29,7 +30,7 @@ namespace _3DSceneEditorCS.Classes
             if (Math.Abs(z) > eps)
             {
                 double t = (normal * r.from + d) / z;
-                if (t < 0)
+                if (t <= eps)
                     return null;
                 Vector point = r.from + r.direction * t;
 

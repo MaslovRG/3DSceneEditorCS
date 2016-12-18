@@ -100,6 +100,7 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -519,6 +520,7 @@
             this.button9.TabIndex = 16;
             this.button9.Text = "Изменить цвет";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // groupBox6
             // 
@@ -873,6 +875,7 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }
 
